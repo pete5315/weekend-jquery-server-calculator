@@ -62,13 +62,15 @@ function renderToDOM(calculations) {
     //empty the most recent result
     $('#result').empty();
     //display the most recent result
-    $('#result').append(calculations[calculations.length-1].result);
+    if (calculations.length!==1) {
+        $('#result').append(calculations[calculations.length-1].result);
+    }
     //empty the history
     $('#history').empty();
     //display the updated history
-    for (let x of calculations) {
+    for (let i=1; i<calculations.length; i++) {
         $('#history').append(`
-        <li>${x.calculation}</li>
+        <li>${calculations[i].calculation}</li>
         `);
     }
     clearFields();
