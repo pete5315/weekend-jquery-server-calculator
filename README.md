@@ -1,9 +1,7 @@
 # Project Name
 
-[Project Instructions](./INSTRUCTIONS.md), this line may be removed once you have updated the README.md
+Server side calculator (weekend assignment)
 
 ## Description
 
-Your project description goes here. What problem did you solve? How did you solve it?
-
-Additional README details can be found [here](https://github.com/PrimeAcademy/readme-template/blob/master/README.md).
+This is a calculator that works out the arithmetic on the server side. I approached it using the event -> post -> state -> get -> render flow we've been practicing in class. I made separate modules for storing the prior calculations and doing the calucation but the rest is in the server.
