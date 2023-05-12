@@ -13,16 +13,19 @@
     <h1>Server Side Calculator</h1>
     <form id="add-quote-form">
         <input type="number" placeholder="" id="input1"/>
-        <button type="button" class="operator" id="addButton" onClick="">+</button>
-        <button type="button" class="operator" id="subtractButton" onClick="">-</button>
-        <button type="button" class="operator" id="multiplyButton" onClick="">*</button>
-        <button type="button" class="operator" id="divideButton" onClick="">/</button>
-        <input type="number" placeholder="" id="input2"/>
-        <button type="button" id="addButton" onClick="">=</button>
-        <button type="button" id="addButton" onClick="">C</button>
+        <div id="buttonGroup">
+            <button type="button" class="operator" id="addButton" onClick="">+</button>
+            <button type="button" class="operator" id="subtractButton" onClick="">-</button>
+            <button type="button" class="operator" id="multiplyButton" onClick="">*</button>
+            <button type="button" class="operator" id="divideButton" onClick="">/</button>
+        </div>
+            <input type="number" placeholder="" id="input2"/>
+        <button type="button" id="calculate" onClick="">=</button>
+        <button type="button" id="clear" onClick="">C</button>
     </form>
-    <div id="calculationsContainer"></div>
-    <div id="result"></div>
-    <ul id="history"></ul>
+        <div id="calculationsContainer">
+        <div id="result"></div>
+        <ul id="history"></ul>
+    </div>
 </body>
 </html>
