@@ -1,16 +1,19 @@
+//Switch function to evaluate based on the operator
 function calculator(inputs) {
-    if(inputs.operator==="+") {
-        return inputs.input1*1 + inputs.input2*1;
-    }
-    if(inputs.operator==="-") {
-        return inputs.input1 - inputs.input2;
-    }
-    if(inputs.operator==="*") {
-        return inputs.input1 * inputs.input2;
-    }
-    if(inputs.operator==="/") {
-        return inputs.input1 / inputs.input2;
+    switch(inputs.operator) {
+        case "+":
+            return inputs.input1*1 + inputs.input2*1;
+            break;
+        case "-":
+            return inputs.input1 - inputs.input2;
+            break;
+        case "*":
+            return inputs.input1 * inputs.input2;
+            break;
+        case "/":
+            return inputs.input1 / inputs.input2;
+            break;
     }
 }
 
-module.exports = calculator
+module.exports = calculator;
