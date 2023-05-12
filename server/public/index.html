@@ -12,15 +12,42 @@
 <body>
     <h1>Server Side Calculator</h1>
     <form id="add-quote-form">
-        <input type="number" placeholder="" id="input1"/>
-        <button type="button" class="operator" id="addButton" onClick="">+</button>
-        <button type="button" class="operator" id="subtractButton" onClick="">-</button>
-        <button type="button" class="operator" id="multiplyButton" onClick="">*</button>
-        <button type="button" class="operator" id="divideButton" onClick="">/</button>
-        <input type="number" placeholder="" id="input2"/>
-        <button type="button" id="calculate" onClick="">=</button>
+        <input placeholder="" id="input1"/>
         <button type="button" id="clear" onClick="">C</button>
-    </form>
+        <button type="button" id="clearHistory" onClick="">Clear History</button>
+        <div>
+            <span>
+                <button type="button" class="operator" id="7Button" onClick="">7</button>
+                <button type="button" class="operator" id="8Button" onClick="">8</button>
+                <button type="button" class="operator" id="9Button" onClick="">9</button>
+                <button type="button" class="operator" id="addButton" onClick="">+</button>
+            </span>
+        </div>
+        <div>
+            <span>    
+                <button type="button" class="operator" id="4Button" onClick="">4</button>
+                <button type="button" class="operator" id="5Button" onClick="">5</button>
+                <button type="button" class="operator" id="6Button" onClick="">6</button>
+                <button type="button" class="operator" id="subtractButton" onClick="">-</button>
+            </span>
+        </div>
+        <div>
+            <span>            
+                <button type="button" class="operator" id="1Button" onClick="">1</button>
+                <button type="button" class="operator" id="2Button" onClick="">2</button>
+                <button type="button" class="operator" id="3Button" onClick="">3</button>
+                <button type="button" class="operator" id="multiplyButton" onClick="">*</button>
+            </span>
+        </div>
+        <div>
+            <span>    
+                <button type="button" class="operator" id="0Button" onClick="">0</button>
+                <button type="button" class="operator" id=".Button" onClick="">.</button>
+                <button type="button" id="calculate" onClick="">=</button>
+                <button type="button" class="operator" id="divideButton" onClick="">/</button>
+            </span>
+        </div>
+        </form>
         <div id="calculationsContainer">
         <h2><div id="result"></div></h2>
         <ul id="history"></ul>

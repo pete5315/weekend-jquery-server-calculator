@@ -10,12 +10,17 @@ function onReady() {
     $('#calculate').on('click', storeCalculation);
     //clear the input fields
     $('#clear').on('click', clearFields);
+    //clear the history
+    $('#clearHistory').on('click', clearHistory);
+    //repost a result 
+    $('#history').on('click', repost);
     //include any previous calculations still on the server on the DOM 
-    getResults();
+    // getResults();
 }
 
 function ops() {
-    globalOperator=$(this).text();
+    globalOperator+=$(this).text();
+    $('#input1').val(globalOperator);
     $(".operator").css("background-color", "white");
     $(this).css("background-color", "red");
 }
@@ -42,13 +47,32 @@ function storeCalculation(event) {
         alert('Input field blank, please retry');
         return;
     }
+    
+    let isolatedParts = isolateParts($('#input1').val());
+    for (let x in isolatedParts) {
+        console.log(isolatedParts[x]);
+        if(isolatedParts[x]===""||isolatedParts[x]===undefined){
+            console.log("51 return");
+            return;
+        }
+    }
+
+    for (let x in isolatedParts) {
+        if((isolatedParts[x].length>1)&&(isolatedParts[x]*1!==isolatedParts[x])) {
+            console.log("58 fail")
+            return
+        }
+
+    }
+
+
+
+
     $.ajax( {
         method: 'POST',
         url: '/calculationHistory',
         data: {
             input1: $('#input1').val(),
-            input2: $('#input2').val(),
-            operator: globalOperator
         }
     }).then(function(req,res) {
         getResults();
@@ -59,6 +83,9 @@ function storeCalculation(event) {
 }
 
 function renderToDOM(calculations) {
+    if(calculations===undefined) {
+        return;
+    }
     //empty the most recent result
     $('#result').empty();
     //display the most recent result
@@ -68,9 +95,9 @@ function renderToDOM(calculations) {
     //empty the history
     $('#history').empty();
     //display the updated history
-    for (let i=1; i<calculations.length; i++) {
+    for (let i=0; i<calculations.length; i++) {
         $('#history').append(`
-        <li>${calculations[i].calculation}</li>
+        <li data-index="${i}">${calculations[i].calculation}</li>
         `);
     }
     clearFields();
@@ -79,6 +106,45 @@ function renderToDOM(calculations) {
 function clearFields() {
     //clear all the input fields
     $('#input1').val("");
-    $('#input2').val("");
+    globalOperator="";
+//    $('#input2').val("");
     $(".operator").css("background-color", "white");
+}
+
+function isolateParts(string) {
+    console.log(string)
+    let object={}
+    let input1 = 0;
+    let input2 = 0;
+    let operator = "";
+    for(let i=0; i<string.length; i++) {
+        console.log(string[i]);
+        if (!(string[i]*1===string[i])){
+            operator=string.slice(i-1,i);
+            input1=string.slice(0,i-1);
+            input2=string.slice(i);
+        }
+    }
+    object={input1, input2, operator}
+    console.log(object);
+    return object;
+}
+
+function clearHistory() {
+    console.log("131")
+    let index = 0;
+    $.ajax({
+        type: `DELETE`,
+        url: `/calculationHistory/` + index
+    }).then( function( response ){
+        getResults();
+    }).catch( function( err ){
+        console.log( err );
+        alert( `Unable to delete at this time. Try again later.` );
+    }
+    )
+}
+
+function repost() {
+
 }
