@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles/style.css" rel="stylesheet">
+    <script src="vendors/jquery.js"></script>
+    <script src="scripts/client.js"></script>
+    <title>Weekend Challenge: Server Side Calculator</title>
+</head>
+<body>
+    <h1>Server Side Calculator</h1>
+    <form id="add-quote-form">
+        <input type="number" placeholder="" id="input1"/>
+        <button type="button" class="operator" id="addButton" onClick="">+</button>
+        <button type="button" class="operator" id="subtractButton" onClick="">-</button>
+        <button type="button" class="operator" id="multiplyButton" onClick="">*</button>
+        <button type="button" class="operator" id="divideButton" onClick="">/</button>
+        <input type="number" placeholder="" id="input2"/>
+        <button type="button" id="addButton" onClick="">=</button>
+        <button type="button" id="addButton" onClick="">C</button>
+    </form>
+    <div id="calculationsContainer"></div>
+    <div id="result"></div>
+    <ul id="history"></ul>
+</body>
+</html>
