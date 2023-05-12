@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended : true }));
 
 //route to get history of calculations
 app.get('/calculationHistory', function(req, res) {
+    if (calculationHistory===[]) {
+        res.send("oh?");
+    }
     res.send(calculationHistory);
 })
 
