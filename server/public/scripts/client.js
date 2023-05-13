@@ -19,13 +19,13 @@ function onReady() {
 }
 
 function ops() {
+    //update input textbox
+    globalOperator=$('#input1').val();
     globalOperator+=$(this).text();
     $('#input1').val(globalOperator);
-    $(".operator").css("background-color", "white");
-    $(this).css("background-color", "red");
 }
 
-function getResults() {
+function getResults() { //ajax get call
     $.ajax( {
         method: 'GET',
         url: '/calculationHistory'
@@ -51,7 +51,7 @@ function storeCalculation(event) {
         alert('Input field blank, please retry');
         return;
     }
-    
+    //split the string into two input objects and an operator
     let isolatedParts = isolateParts($('#input1').val());
     console.log(isolatedParts);
     for (let x in isolatedParts) {
@@ -61,15 +61,25 @@ function storeCalculation(event) {
             return;
         }
     }
-
+console.log("63")
     for (let x in isolatedParts) {
+        //check if operator was entered too many times
         if((isolatedParts[x].length>1)&&(isolatedParts[x]*1!=isolatedParts[x])) {
             console.log("58 fail", isolatedParts[x])
-            return
+            return;
+        }
+        //check if an input has multiple decimal points
+        let j=0;
+        console.log("72");
+        if (isolatedParts[x]===".") {
+            if(j===1) {
+                return;
+            }
+            j++;
+
         }
 
     }
-
 
 
 
@@ -92,6 +102,7 @@ function renderToDOM(calculations) {
     $('#result').empty();
     //empty the history
     $('#history').empty();
+    //empty array would error, so end early if so
     if(calculations===undefined) {
         return;
     }
@@ -114,9 +125,24 @@ function clearFields() {
     $(".operator").css("background-color", "white");
 }
 
+function clearHistory() {
+    console.log("131")
+    $.ajax({
+        type: `DELETE`,
+        url: `/calculationHistory`
+    }).then( function( response ){
+        getResults();
+    }).catch( function( err ){
+        // console.log( err );
+        // alert( `Unable to delete at this time. Try again later.` );
+        getResults();
+        }
+    )
+}
+
 function isolateParts(string) {
     console.log(string)
-    let object={}
+    let object={};
     let input1 = 0;
     let input2 = 0;
     let operator = "";
@@ -132,21 +158,6 @@ function isolateParts(string) {
     object={input1, input2, operator}
     console.log(object);
     return object;
-}
-
-function clearHistory() {
-    console.log("131")
-    $.ajax({
-        type: `DELETE`,
-        url: `/calculationHistory`
-    }).then( function( response ){
-        getResults();
-    }).catch( function( err ){
-        // console.log( err );
-        // alert( `Unable to delete at this time. Try again later.` );
-        getResults();
-        }
-    )
 }
 
 function isolateParts2(string2) {
