@@ -5,10 +5,10 @@ function isolateParts(string) {
     let operator = "";
     for(let i=0; i<string.length; i++) {
         console.log(string[i]);
-        if (!(string[i]*1===string[i])){
-            operator=string.slice(i-1,i);
-            input1=string.slice(0,i-1);
-            input2=string.slice(i);
+        if (!(string[i]*0===0)){
+            operator=string.slice(i,i+1);
+            input1=string.slice(0,i);
+            input2=string.slice(i+1);
         }
     }
     object={input1, input2, operator}

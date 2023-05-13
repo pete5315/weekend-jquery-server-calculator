@@ -13,9 +13,9 @@ function onReady() {
     //clear the history
     $('#clearHistory').on('click', clearHistory);
     //repost a result 
-    $('#history').on('click', repost);
+    $('#history').on('click', '.history', repost);
     //include any previous calculations still on the server on the DOM 
-    // getResults();
+    getResults();
 }
 
 function ops() {
@@ -26,16 +26,20 @@ function ops() {
 }
 
 function getResults() {
-    //ajax get call
     $.ajax( {
         method: 'GET',
         url: '/calculationHistory'
     }).then(function(response) {
+        if(response===[]){
+            console.log('undefined result');
+            return;
+        }
+        console.log(response);
         renderToDOM(response);
     }
     ).catch(function(error) {
-        alert('Server error')
-        console.log('fail: ',error);
+        // alert('A')
+        // console.log('fail: ',error)
         }
     )
 }
@@ -49,17 +53,18 @@ function storeCalculation(event) {
     }
     
     let isolatedParts = isolateParts($('#input1').val());
+    console.log(isolatedParts);
     for (let x in isolatedParts) {
         console.log(isolatedParts[x]);
         if(isolatedParts[x]===""||isolatedParts[x]===undefined){
-            console.log("51 return");
+            alert("Missing input and/or too many operators");
             return;
         }
     }
 
     for (let x in isolatedParts) {
-        if((isolatedParts[x].length>1)&&(isolatedParts[x]*1!==isolatedParts[x])) {
-            console.log("58 fail")
+        if((isolatedParts[x].length>1)&&(isolatedParts[x]*1!=isolatedParts[x])) {
+            console.log("58 fail", isolatedParts[x])
             return
         }
 
@@ -77,27 +82,25 @@ function storeCalculation(event) {
     }).then(function(req,res) {
         getResults();
     }).catch(function(error) {
-        console.log("Error", error);
-        alert('error');
+        // console.log("Error", error);
+        // alert('error');
     })
 }
 
 function renderToDOM(calculations) {
+    //empty the most recent result
+    $('#result').empty();
+    //empty the history
+    $('#history').empty();
     if(calculations===undefined) {
         return;
     }
-    //empty the most recent result
-    $('#result').empty();
     //display the most recent result
-    if (calculations.length!==1) {
         $('#result').append(calculations[calculations.length-1].result);
-    }
-    //empty the history
-    $('#history').empty();
     //display the updated history
     for (let i=0; i<calculations.length; i++) {
         $('#history').append(`
-        <li data-index="${i}">${calculations[i].calculation}</li>
+        <li class="history" data-value="${calculations[i].result}" data-index="${i}">${calculations[i].calculation}</li>
         `);
     }
     clearFields();
@@ -119,10 +122,11 @@ function isolateParts(string) {
     let operator = "";
     for(let i=0; i<string.length; i++) {
         console.log(string[i]);
-        if (!(string[i]*1===string[i])){
-            operator=string.slice(i-1,i);
-            input1=string.slice(0,i-1);
-            input2=string.slice(i);
+        if (!(string[i]*1==string[i])){
+            console.log(i);
+            operator=string.slice(i,i+1);
+            input1=string.slice(0,i);
+            input2=string.slice(i+1);
         }
     }
     object={input1, input2, operator}
@@ -132,19 +136,30 @@ function isolateParts(string) {
 
 function clearHistory() {
     console.log("131")
-    let index = 0;
     $.ajax({
         type: `DELETE`,
-        url: `/calculationHistory/` + index
+        url: `/calculationHistory`
     }).then( function( response ){
         getResults();
     }).catch( function( err ){
-        console.log( err );
-        alert( `Unable to delete at this time. Try again later.` );
-    }
+        // console.log( err );
+        // alert( `Unable to delete at this time. Try again later.` );
+        getResults();
+        }
     )
 }
 
-function repost() {
+function isolateParts2(string2) {
+    console.log(string2);
+    let array2=string2.split(" ")
+    let string=array2[0]
+    console.log(string)
+    return string;
+}
 
+
+function repost(event) {
+    $("#result").text($(this).data("value"))
+    globalOperator=isolateParts2($(this).text())
+    $("#input1").val(globalOperator);
 }

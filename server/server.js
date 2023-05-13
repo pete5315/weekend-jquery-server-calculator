@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.get('/calculationHistory', function(req, res) {
     console.log(calculationHistory);
     res.send(calculationHistory);
-    res.sendStatus(200);
 })
 
 //route to post a new calculation
@@ -27,12 +26,13 @@ app.post('/calculationHistory', function(req,res) {
     res.sendStatus(201);
 });
 
+//delete a chosen entry in the history array
+app.delete( '/calculationHistory', ( req, res )=>{
+    calculationHistory.length=0;
+    res.sendStatus( 200 );
+})
+
 //enable server listening
 app.listen(port, () => {
     console.log("listening on port", port);
 });
-//delete a chosen entry in the history array
-app.delete( `/calculationHistory/:index`, ( req, res )=>{
-    calculationHistory=[];
-    res.sendStatus( 200 );
-})
