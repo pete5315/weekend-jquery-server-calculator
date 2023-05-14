@@ -1,8 +1,11 @@
+//boiler plate requires
 const express = require("express");
 const bodyParser = require('body-parser');
+//script specific variables
 let calculationHistory = [];
 const isolateParts = require("./modules/isolateParts");
 const calculator = require("./modules/calculator");
+//boiler plate continued
 const app = express();
 const port = 5000;
 app.use(express.static("server/public"));
@@ -20,7 +23,7 @@ app.post('/calculationHistory', function(req,res) {
     let result=calculator(isolateParts(req.body.input1));
     //store a string of the calculation
     let calculation=`${req.body.input1} = ${result}`
-//push the new calculation into the history array
+    //push the new calculation into the history array
     calculationHistory.push({calculation, result});
     // Send back a status code of 201
     res.sendStatus(201);

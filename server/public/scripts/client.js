@@ -19,7 +19,7 @@ function onReady() {
 }
 
 function ops() {
-    //update input textbox
+    //update input textbox, accepts keystrokes or clicks
     globalOperator=$('#input1').val();
     globalOperator+=$(this).text();
     $('#input1').val(globalOperator);
@@ -38,8 +38,9 @@ function getResults() { //ajax get call
         renderToDOM(response);
     }
     ).catch(function(error) {
-        // alert('A')
-        // console.log('fail: ',error)
+        //errors were not functional during testing 
+        //alert('A')
+        //console.log('fail: ',error)
         }
     )
 }
@@ -53,24 +54,17 @@ function storeCalculation(event) {
     }
     //split the string into two input objects and an operator
     let isolatedParts = isolateParts($('#input1').val());
-    console.log(isolatedParts);
     for (let x in isolatedParts) {
-        console.log(isolatedParts[x]);
+        //check if any of the parts are missing
         if(isolatedParts[x]===""||isolatedParts[x]===undefined){
-            alert("Missing input and/or too many operators");
             return;
         }
-    }
-console.log("63")
-    for (let x in isolatedParts) {
         //check if operator was entered too many times
         if((isolatedParts[x].length>1)&&(isolatedParts[x]*1!=isolatedParts[x])) {
-            console.log("58 fail", isolatedParts[x])
             return;
         }
         //check if an input has multiple decimal points
         let j=0;
-        console.log("72");
         if (isolatedParts[x]===".") {
             if(j===1) {
                 return;
@@ -78,10 +72,7 @@ console.log("63")
             j++;
 
         }
-
     }
-
-
 
     $.ajax( {
         method: 'POST',
@@ -126,28 +117,28 @@ function clearFields() {
 }
 
 function clearHistory() {
-    console.log("131")
-    $.ajax({
+    $.ajax({ //ajax delete call
         type: `DELETE`,
         url: `/calculationHistory`
     }).then( function( response ){
         getResults();
     }).catch( function( err ){
-        // console.log( err );
-        // alert( `Unable to delete at this time. Try again later.` );
+        //errors were not functional during testing
+        //console.log( err );
+        //alert( `Unable to delete at this time. Try again later.` );
         getResults();
         }
     )
 }
 
 function isolateParts(string) {
-    console.log(string)
+    //function to split the string into 3 parts
     let object={};
     let input1 = 0;
     let input2 = 0;
     let operator = "";
     for(let i=0; i<string.length; i++) {
-        console.log(string[i]);
+        //checks where operator is located and splits the string
         if (!(string[i]*1==string[i])){
             console.log(i);
             operator=string.slice(i,i+1);
@@ -155,21 +146,17 @@ function isolateParts(string) {
             input2=string.slice(i+1);
         }
     }
-    object={input1, input2, operator}
-    console.log(object);
-    return object;
+    return {input1, input2, operator};
 }
 
 function isolateParts2(string2) {
-    console.log(string2);
+    //converts the string into an array and returns the portion before the = sign
     let array2=string2.split(" ")
-    let string=array2[0]
-    console.log(string)
-    return string;
+    return array2[0];
 }
 
 
-function repost(event) {
+function repost() {
     $("#result").text($(this).data("value"))
     globalOperator=isolateParts2($(this).text())
     $("#input1").val(globalOperator);
