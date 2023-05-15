@@ -36,6 +36,6 @@ app.delete( '/calculationHistory', ( req, res )=>{
 })
 
 //enable server listening
-app.listen(/*port, () => {
+app.listen(port, () => {
     console.log("listening on port", port);
-}*/);
+});
